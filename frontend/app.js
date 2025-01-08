@@ -1,4 +1,4 @@
-const socket = io('http://localhost:3000'); // เชื่อมต่อกับ Backend
+const socket = io('https://chat-app-1-jgb9.onrender.com'); // เชื่อมต่อกับ Backend
 
 const messagesDiv = document.getElementById('messages');
 const messageInput = document.getElementById('message-input');
