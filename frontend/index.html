@@ -1,89 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <line> 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat App</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f7f7f7;
-    }
-    .chat-container {
-      width: 100%;
-      max-width: 600px;
-      margin: 20px auto;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .chat-header {
-      background: #4CAF50;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      font-size: 20px;
-    }
-    .chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      height: 400px;
-      display: flex;
-      flex-direction: column;
-    }
-    .chat-messages .message {
-      margin: 5px 0;
-      padding: 10px;
-      border-radius: 8px;
-      max-width: 70%;
-    }
-    .chat-messages .message.user {
-      background: #DCF8C6;
-      align-self: flex-end;
-    }
-    .chat-messages .message.other {
-      background: #E5E5EA;
-      align-self: flex-start;
-    }
-    .chat-footer {
-      display: flex;
-      padding: 10px;
-      border-top: 1px solid #ddd;
-    }
-    .chat-footer input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-    .chat-footer button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-    .chat-footer button:hover {
-      background: #45a049;
-    }
-    .message-time {
-      font-size: 0.8em;
-      color: #999;
-      margin-top: 5px;
-    }
-    .message-sender {
-      font-weight: bold;
-    }
-  </style>
-</head>
+  <link rel="stylesheet" href="style.css">
 <body>
 
   <div id="login-container" style="text-align: center; margin-top: 20px;">
@@ -104,63 +26,8 @@
   </div>
 
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-  <script>
-    // แก้ IP Address เป็น IP Address ของเครื่องเซิร์ฟเวอร์
-    const socket = io('https://chat-app-1-jgb9.onrender.com');
-    const messagesContainer = document.getElementById('messages');
-    const messageInput = document.getElementById('message');
-    const sendButton = document.getElementById('send');
-    const loginContainer = document.getElementById('login-container');
-    const chatContainer = document.getElementById('chat-container');
-    const usernameInput = document.getElementById('username');
-    const loginButton = document.getElementById('login-btn');
-    let username = "";
-
-    function addMessage(content, isUser, senderName, time) {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', isUser ? 'user' : 'other');
-
-      const senderDiv = document.createElement('div');
-      senderDiv.classList.add('message-sender');
-      senderDiv.textContent = senderName;
-
-      const messageContent = document.createElement('div');
-      messageContent.textContent = content;
-
-      const timeDiv = document.createElement('div');
-      timeDiv.classList.add('message-time');
-      timeDiv.textContent = time;
-
-      messageDiv.appendChild(senderDiv);
-      messageDiv.appendChild(messageContent);
-      messageDiv.appendChild(timeDiv);
-
-      messagesContainer.appendChild(messageDiv);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    loginButton.addEventListener('click', () => {
-      username = usernameInput.value.trim();
-      if (username) {
-        loginContainer.style.display = 'none';
-        chatContainer.style.display = 'flex';
-        socket.emit('join', username);
-      }
-    });
-
-    sendButton.addEventListener('click', () => {
-      const message = messageInput.value.trim();
-      if (message) {
-        const currentTime = new Date().toLocaleTimeString();
-        addMessage(message, true, username, currentTime);
-        socket.emit('chat message', { message, sender: username, time: currentTime });
-        messageInput.value = '';
-      }
-    });
-
-    socket.on('chat message', (data) => {
-      addMessage(data.message, false, data.sender, data.time);
-    });
+  <script src="app.js"></script>
+    
   </script>
 </body>
 </html>
