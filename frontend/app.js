@@ -1,8 +1,10 @@
 // เชื่อมต่อกับ Backend 
-const socket = io('https://chat-box2.onrender.com');
+const socket = io('http://172.20.10.3:3000');
 const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('message');
 const sendButton = document.getElementById('send');
+const emojiButton = document.getElementById('emoji-btn'); // ปุ่มอิโมจิ
+const emojiContainer = document.getElementById('emoji-container'); // กล่องอิโมจิ
 const loginContainer = document.getElementById('login-container');
 const chatContainer = document.getElementById('chat-container');
 const usernameInput = document.getElementById('username');
@@ -50,7 +52,7 @@ sendButton.addEventListener('click', () => {
   if (message) {
     const currentTime = new Date().toLocaleTimeString();
     const messageData = { message, sender: username, time: currentTime };
-    addMessage(message, true, username, currentTime); // แสดงข้อความในหน้าต่างแชตทันที
+    addMessage(message, true, username, currentTime); // แสดงข้อความในหน้าต่างแชททันที
     socket.emit('chat message', messageData); // ส่งไปยังเซิร์ฟเวอร์
     localStorage.setItem('lastMessage', JSON.stringify(messageData)); // บันทึกข้อความใน localStorage
     messageInput.value = ''; // ล้างช่องป้อนข้อความ
@@ -60,6 +62,18 @@ sendButton.addEventListener('click', () => {
 // รับข้อความจากเซิร์ฟเวอร์
 socket.on('chat message', (data) => {
   addMessage(data.message, false, data.sender, data.time); // แสดงข้อความจากผู้อื่น
+});
+
+// ฟังก์ชันแสดง/ซ่อนอิโมจิ
+emojiButton.addEventListener('click', () => {
+  emojiContainer.style.display = emojiContainer.style.display === 'block' ? 'none' : 'block';
+});
+
+// เพิ่มอิโมจิลงในข้อความ
+emojiContainer.addEventListener('click', (event) => {
+  if (event.target.tagName === 'SPAN') {
+    messageInput.value += event.target.textContent; // เพิ่มอิโมจิในข้อความ
+  }
 });
 
 // เเสดงข้อความลิ้งหากัน
