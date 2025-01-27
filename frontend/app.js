@@ -1,5 +1,5 @@
 // เชื่อมต่อกับ Backend 
-const socket = io('https://chat-box2.onrender.com/');
+const socket = io('https://chat-box2.onrender.com');
 const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('message');
 const sendButton = document.getElementById('send');
