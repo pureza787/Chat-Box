@@ -52,7 +52,6 @@ sendButton.addEventListener('click', () => {
     const messageData = { message, sender: username, time: currentTime };
     addMessage(message, true, username, currentTime); // แสดงข้อความในหน้าต่างแชตทันที
     socket.emit('chat message', messageData); // ส่งไปยังเซิร์ฟเวอร์
-    localStorage.setItem('lastMessage', JSON.stringify(messageData)); // บันทึกข้อความใน localStorage
     messageInput.value = ''; // ล้างช่องป้อนข้อความ
   }
 });
