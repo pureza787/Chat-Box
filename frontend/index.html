@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <line> 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat App</title>
   <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
   <div id="login-container" style="text-align: center; margin-top: 20px;">
@@ -20,6 +20,19 @@
     </div>
     <div id="messages" class="chat-messages"></div>
     <div class="chat-footer">
+      <div id="emoji-container" style="display: none;">
+        <span>🤍</span>
+        <span>👌🏻</span>
+        <span>🫵🏻</span>
+        <span>👽</span>
+        <span>😎</span>
+        <span>💨</span>
+        <span>🔞</span>
+        <span>🍾</span>
+        <span>🚀</span>
+        <span>🙉</span>
+      </div>
+      <button id="emoji-btn" style="margin-right: 5px;">❤️‍🔥</button>
       <input id="message" type="text" placeholder="Type your message here..." />
       <button id="send">Send</button>
     </div>
@@ -27,7 +40,6 @@
 
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <script src="app.js"></script>
-    
-  </script>
+
 </body>
 </html>
