@@ -39,8 +39,7 @@ loginButton.addEventListener('click', () => {
   if (username) {
     loginContainer.style.display = 'none';
     chatContainer.style.display = 'flex';
-    socket.emit('join', username);
-    localStorage.setItem('chatUsername', username); // บันทึก username ใน localStorage
+    socket.emit('join', username); // ส่งชื่อผู้ใช้ไปยังเซิร์ฟเวอร์
   }
 });
 
@@ -51,7 +50,7 @@ sendButton.addEventListener('click', () => {
     const currentTime = new Date().toLocaleTimeString();
     const messageData = { message, sender: username, time: currentTime };
     addMessage(message, true, username, currentTime); // แสดงข้อความในหน้าต่างแชตทันที
-    socket.emit('chat message', messageData); // ส่งไปยังเซิร์ฟเวอร์
+    socket.emit('chat message', messageData); // ส่งข้อความไปยังเซิร์ฟเวอร์
     messageInput.value = ''; // ล้างช่องป้อนข้อความ
   }
 });
@@ -61,17 +60,7 @@ socket.on('chat message', (data) => {
   addMessage(data.message, false, data.sender, data.time); // แสดงข้อความจากผู้อื่น
 });
 
-// เเสดงข้อความลิ้งหากัน
-window.addEventListener('storage', (event) => {
-  if (event.key === 'lastMessage' && event.newValue) {
-    const data = JSON.parse(event.newValue);
-    if (data.sender !== username) { // ตรวจสอบว่าข้อความไม่ใช่ของผู้ใช้ปัจจุบัน
-      addMessage(data.message, false, data.sender, data.time);
-    }
-  }
-});
-
-// ลงทะเบียน Service Worker
+// ลงทะเบียน Service Worker (ถ้ามี)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js').then((registration) => {
