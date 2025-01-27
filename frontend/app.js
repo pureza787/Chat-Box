@@ -1,5 +1,5 @@
 // เชื่อมต่อกับ Backend 
-const socket = io('https://chat-app-1-jgb9.onrender.com');
+const socket = io('http://192.168.1.145:3000');
 const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('message');
 const sendButton = document.getElementById('send');
@@ -39,7 +39,8 @@ loginButton.addEventListener('click', () => {
   if (username) {
     loginContainer.style.display = 'none';
     chatContainer.style.display = 'flex';
-    socket.emit('join', username); // ส่งชื่อผู้ใช้ไปยังเซิร์ฟเวอร์
+    socket.emit('join', username);
+    localStorage.setItem('chatUsername', username); // บันทึก username ใน localStorage
   }
 });
 
@@ -50,7 +51,8 @@ sendButton.addEventListener('click', () => {
     const currentTime = new Date().toLocaleTimeString();
     const messageData = { message, sender: username, time: currentTime };
     addMessage(message, true, username, currentTime); // แสดงข้อความในหน้าต่างแชตทันที
-    socket.emit('chat message', messageData); // ส่งข้อความไปยังเซิร์ฟเวอร์
+    socket.emit('chat message', messageData); // ส่งไปยังเซิร์ฟเวอร์
+    localStorage.setItem('lastMessage', JSON.stringify(messageData)); // บันทึกข้อความใน localStorage
     messageInput.value = ''; // ล้างช่องป้อนข้อความ
   }
 });
@@ -60,7 +62,17 @@ socket.on('chat message', (data) => {
   addMessage(data.message, false, data.sender, data.time); // แสดงข้อความจากผู้อื่น
 });
 
-// ลงทะเบียน Service Worker (ถ้ามี)
+// เเสดงข้อความลิ้งหากัน
+window.addEventListener('storage', (event) => {
+  if (event.key === 'lastMessage' && event.newValue) {
+    const data = JSON.parse(event.newValue);
+    if (data.sender !== username) { // ตรวจสอบว่าข้อความไม่ใช่ของผู้ใช้ปัจจุบัน
+      addMessage(data.message, false, data.sender, data.time);
+    }
+  }
+});
+
+// ลงทะเบียน Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js').then((registration) => {
