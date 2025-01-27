@@ -1,5 +1,5 @@
 // เชื่อมต่อกับ Backend 
-const socket = io('http://192.168.1.145:3000');
+const socket = io('https://chat-app-1-jgb9.onrender.com');
 const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('message');
 const sendButton = document.getElementById('send');
