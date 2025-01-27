@@ -82,7 +82,7 @@ body {
 
 /* CSS สำหรับปุ่มอิโมจิ */
 #emoji-btn {
-  background: #FFD700;
+  background: #45a049;
   color: #333;
   border: none;
   border-radius: 5px;
@@ -91,7 +91,7 @@ body {
 }
 
 #emoji-btn:hover {
-  background: #FFC107;
+  background: hsl(268, 100%, 51%);
 }
 
 /* CSS สำหรับกล่องอิโมจิ */
