@@ -23,7 +23,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', (data) => {
-    io.emit('chat message', data);
+    console.log('Received message:', data); // ดูข้อความที่เซิร์ฟเวอร์ได้รับ
+    io.emit('chat message', data); // ส่งข้อความไปยังเครื่องอื่น
   });
 
   socket.on('disconnect', () => {
